@@ -89,6 +89,40 @@ class ProductController {
         .json({ message: "Não foi possível listar produtos." });
     }
   }
+
+  async detalhes(request, response) {
+    try {
+      const id = request.params.id;
+
+      const product = await this.db.query(
+        `SELECT 
+          p.id, p.name, p.amount, p.color, p.voltage, p.description,
+          c.id as category_id, c.name as category_name
+        FROM 
+          products p
+        JOIN 
+          categories c
+        ON 
+          p.category_id = c.id
+        WHERE 
+          p.id = $1`,
+        [id]
+      );
+
+      if (product.rows.length === 0) {
+        return response
+          .status(404)
+          .json({ message: "Produto não encontrado." });
+      }
+
+      response.json(product.rows[0]);
+    } catch (error) {
+      console.error("Erro ao buscar detalhes do produto:", error);
+      response
+        .status(500)
+        .json({ message: "Não foi possível buscar detalhes do produto." });
+    }
+  }
 }
 
 module.exports = ProductController;
