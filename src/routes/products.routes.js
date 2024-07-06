@@ -12,4 +12,8 @@ productsRoute.get("/", (request, response) =>
   productsController.listar(request, response)
 );
 
+productsRoute.get("/:id", (request, response) =>
+  productsController.detalhes(request, response)
+);
+
 module.exports = productsRoute;
