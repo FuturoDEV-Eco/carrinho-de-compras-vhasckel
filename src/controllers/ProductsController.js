@@ -66,6 +66,29 @@ class ProductController {
         .json({ message: "não foi possível cadastrar produto" });
     }
   }
+
+  async listar(request, response) {
+    try {
+      const data = request.query;
+
+      let products;
+      if (data.nome) {
+        products = await this.db.query(
+          "SELECT * FROM products where name LIKE $1",
+          [`%${data.name}%`]
+        );
+        response.status(200).json(products.rows);
+      } else {
+        products = await this.db.query("SELECT * FROM products");
+        response.status(200).json(products.rows);
+      }
+    } catch (error) {
+      console.error("Erro ao listar produtos:", error);
+      response
+        .status(500)
+        .json({ message: "Não foi possível listar produtos." });
+    }
+  }
 }
 
 module.exports = ProductController;

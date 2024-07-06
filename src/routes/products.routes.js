@@ -8,4 +8,8 @@ productsRoute.post("/", (request, response) =>
   productsController.criar(request, response)
 );
 
+productsRoute.get("/", (request, response) =>
+  productsController.listar(request, response)
+);
+
 module.exports = productsRoute;
