@@ -1,3 +1,13 @@
+-- [M2S06] - Ex. 02 - Cadastro de clientes
+
+create table clients (
+	id serial primary key,
+	name varchar(150) not null,
+	email varchar(150) unique not null,
+	cpf varchar(50) unique not null,
+	contact varchar(20) not null
+);
+
 -- [M2S06] - Ex. 03 - Cadastro de produto
 
 create table categories (
